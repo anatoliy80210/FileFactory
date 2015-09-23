@@ -30,21 +30,27 @@ FileFactory::~FileFactory() {
 
 // read contents of input stream to File object
 File FileFactory::readFileFromStream(std::istream& stream) {
+	std::string line;
 	std::string word;
 
 	File infile;
 
 	// while input remains
 	while (stream) {
-		// read contents of stdin to variable
-		stream >> word;
+		// read contents of stdin to variable, by line
+		std::getline(stream, line);
+
+		// if there is an error with the stream, break
+		if (!stream) {
+			break;
+		}
+		
+		// else, process word by word
+		std::istringstream iss(line);
 
 		// add the word to the File object
-		infile.push_back(word);
-
-		// if the eof is reached, break loop
-		if (stream.eof()) {
-			break;
+		while (iss >> word) {
+			infile.push_back(word);
 		}
 	}
 
@@ -172,7 +178,7 @@ char** FileFactory::toCStringArray(const File& file) {
 		// allocate an element, with space for the null terminator
 		result[count] = new char[(*itr).length() + 1];
 		// copy to array index
-		strcpy_s(result[count], (*itr).length()+1, (*itr).c_str());
+		strncpy(result[count], (*itr).c_str(), (*itr).length() + 1);
 		// increment count
 		count++;
 	}

@@ -9,10 +9,15 @@
 #ifndef FILE_FACTORY_HPP
 #define FILE_FACTORY_HPP
 
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 // includes
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cstring>
 #include <sstream>
 
 // type alias
